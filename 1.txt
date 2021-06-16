@@ -1,0 +1,10 @@
+Network        Naive               Naive Cache         Basic                BDD                    Search
+-------------  ------------------  ------------------  -------------------  ---------------------  ------------------
+lisandro       706.40 in 0.37 ms   706.40 in 0.38 ms   706.40 in 0.06 ms    706.40 in 3.81 ms      706.40 in 0.55 ms
+simple         565.00 in 0.38 ms   565.00 in 0.33 ms   565.00 in 0.10 ms    565.00 in 0.35 ms      565.00 in 1.49 ms
+complex        312.50 in 4.20 ms   312.50 in 3.09 ms   326.71 in 0.15 ms    312.50 in 1.63 ms      312.50 in 3.20 ms
+surrounded     2087.77 in 7.61 ms  2087.77 in 7.38 ms  2301.22 in 0.18 ms   2111.99 in 1.60 ms     1930.50 in 4.24 ms
+middle         1650.00 in 0.44 ms  1650.00 in 0.35 ms  848.00 in 0.03 ms    848.00 in 0.28 ms      848.00 in 0.34 ms
+triple         300.66 in 8.59 ms   300.66 in 7.14 ms   338.63 in 0.19 ms    318.26 in 1.20 ms      300.66 in 7.01 ms
+combi          340.00 in 3.55 ms   340.00 in 3.40 ms   320.00 in 0.07 ms    320.00 in 0.33 ms      320.00 in 0.78 ms
+campus-simple  D.N.F.              D.N.F.              4370.00 in 83.52 ms  4370.00 in 1686.69 ms  D.N.F.
