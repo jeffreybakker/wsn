@@ -11,11 +11,23 @@ def alg_bdd(graph: Graph, source: Vertex, target: Vertex):
 
     bdd = BDD()
     edges = list(set([e for v in graph.vertices for e in v.edges]))
-    edges = {edges[i]: chr(i + 97) for i in range(len(edges))}
-    legend = {v: k for (k, v) in edges.items()}
+    legend = {str(e): e for e in edges}
 
-    for (_, v) in edges.items():
-        bdd.declare(v)
+    for e in edges:
+        bdd.declare(str(e))
+
+    def evaluate(top: Function):
+        if top == bdd.true:
+            return 1.0
+        elif top == bdd.false:
+            return 0.0
+
+        edge = legend[top.var]
+
+        hi = 1.0 if top.high == bdd.true else evaluate(top.high)
+        lo = 0.0 if top.low == bdd.false else evaluate(top.low)
+
+        return edge.weight * hi + (1.0 - edge.weight) * lo
 
     influence = target.households
 
@@ -28,16 +40,15 @@ def alg_bdd(graph: Graph, source: Vertex, target: Vertex):
         deps = basic.dependencies(v, source, target, [])
         paths = compute(v, target, deps if deps is not None else [], [source])
 
-        statement = None
+        expr = bdd.false
         for (_, _, path) in paths:
-            p = ' & '.join([edges[e] for e in path])
-            if statement is None:
-                statement = '({})'.format(p)
-            else:
-                statement += ' | ({})'.format(p)
+            p = bdd.true
+            for e in path:
+                p = p & bdd.var(str(e))
 
-        expr = bdd.add_expr(statement)
-        rate = evaluate(expr, legend)
+            expr = expr | p
+
+        rate = evaluate(expr)
 
         influence += v.households * rate
         rates[v] = rate
@@ -77,15 +88,6 @@ def compute(current: Vertex, target: Vertex, dependencies: List["Vertex"], visit
                 res.append((current in dependencies, rate * e.weight, path + [e]))
 
     return res
-
-
-def evaluate(top: Function, legend={}):
-    edge = legend[top.var]
-
-    hi = evaluate(top.high, legend) if top.high.var else 1.0
-    lo = evaluate(top.low, legend) if top.low.var else 0.0
-
-    return edge.weight * hi + (1.0 - edge.weight) * lo
 
 
 if __name__ == '__main__':

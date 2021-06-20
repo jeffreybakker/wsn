@@ -12,9 +12,9 @@ def all_networks() -> Dict[str, Graph]:
         "surrounded": example_surrounded(),
         "middle": example_middle(),
         "triple": example_triple(),
-        "combi": example_combi(),
+        "combi": example_combi()
 
-        "campus-simple": example_campus_simple()
+        # "campus-simple": example_campus_simple()
 
         # "rand50": example_random(50),
         # "rand25": example_random(25),

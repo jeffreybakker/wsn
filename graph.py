@@ -47,7 +47,7 @@ class Vertex(object):
         return 'Vertex("{}", {}, #{})'.format(self.label, self.households, len(self._incidence))
 
     def __str__(self) -> str:
-        return self.label
+        return str(self.label)
 
     def create_edge(self, to: "Vertex", weight=1.0):
         """

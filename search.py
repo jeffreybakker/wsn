@@ -1,5 +1,4 @@
 from dd.autoref import BDD, Function
-import math
 from typing import List
 
 from graph import Graph, Vertex
@@ -73,16 +72,24 @@ def alg_search(graph: Graph, source: Vertex, target: Vertex):
 
         return bdds
 
+    cache = {}
+
     def evaluate(tree: Function):
         if tree == bdd.true:
             return 1.0
+
+        if tree in cache.keys():
+            return cache[tree]
 
         edge = legend[tree.var]
 
         hi = 1.0 if tree.high == bdd.true else evaluate(tree.high)
         lo = 0.0 if tree.low == bdd.false else evaluate(tree.low)
 
-        return edge.weight * hi + (1.0 - edge.weight) * lo
+        res = edge.weight * hi + (1.0 - edge.weight) * lo
+        cache[tree] = res
+
+        return res
 
     trees = compute(target, [])
     influence = 0.0
@@ -91,8 +98,9 @@ def alg_search(graph: Graph, source: Vertex, target: Vertex):
     # bdd.collect_garbage()
 
     for (v, tree) in trees.items():
-        # bdd.dump("{}.pdf".format(v.label), roots=[tree])
         rates[v] = evaluate(tree)
         influence += rates[v] * v.households
+
+    cache = {}
 
     return influence, rates
