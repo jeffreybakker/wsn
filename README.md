@@ -1,5 +1,6 @@
 Calculating the Risk of Valve Failures when Maintaining Water Supply Networks
 -----
+_Read the accompanying paper on [essay.utwente.nl](http://essay.utwente.nl/87350/)_
 
 This project contains the implementations for the different algorithms explored
 in the Research Project of the Bachelor Study Technical Computer Science at the
